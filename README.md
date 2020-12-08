@@ -1,5 +1,11 @@
 # Advent of Code 2020
 
+The code for [Advent of Code 2020](https://adventofcode.com/2020).
+Probably won't win any beauty contest but I can play around with js again, which is fun.
+
+## Usage
+
+* `npm test`
 
 ## Starting a new project
 

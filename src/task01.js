@@ -8,7 +8,6 @@ exports.task01a = function (lines) {
                 if (i === j) continue;
 
                 if (expenses[i] + expenses[j] === 2020) {
-                    console.log(expenses[i] + " " + expenses[j]);
                     result = expenses[i] * expenses[j];
                     break outer;
                 }
@@ -28,7 +27,6 @@ exports.task01b = function (lines) {
                     if (i === j || i === k || j === k ) continue;
 
                     if (expenses[i] + expenses[j] + expenses[k] === 2020) {
-                        console.log(expenses[i] + " " + expenses[j] + " " + expenses[k]);
                         result = expenses[i] * expenses[j] * expenses[k];
                         break outer;
                     }

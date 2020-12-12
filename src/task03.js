@@ -1,4 +1,4 @@
-exports.task03a = countTrees;
+exports.task03 = countTrees;
 
 function countTrees(text, slope) {
     const grid = gridOf(text);

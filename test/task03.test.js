@@ -1,5 +1,5 @@
 const expect = require("chai").expect;
-const {task03a} = require("../src/task03");
+const {task03} = require("../src/task03");
 
 // see https://adventofcode.com/2020/day/3
 describe("count the trees for the slope", function () {
@@ -10,7 +10,7 @@ describe("count the trees for the slope", function () {
             ....`;
 
             // act
-            const result = task03a(text, {right: 3, down: 1});
+            const result = task03(text, {right: 3, down: 1});
 
             // assert
             expect(result).to.equal(0);
@@ -22,7 +22,7 @@ describe("count the trees for the slope", function () {
             ####`;
 
             // act
-            const result = task03a(text, {right: 3, down: 1});
+            const result = task03(text, {right: 3, down: 1});
 
             // assert
             expect(result).to.equal(1);
@@ -32,7 +32,7 @@ describe("count the trees for the slope", function () {
             // arrange
 
             // act
-            const result = task03a(grid, {right: 3, down: 1});
+            const result = task03(grid, {right: 3, down: 1});
 
             // assert
             expect(result).to.equal(7);
@@ -42,13 +42,56 @@ describe("count the trees for the slope", function () {
             // arrange
 
             // act
-            const result = task03a(fullGrid, {right: 3, down: 1});
+            const result = task03(fullGrid, {right: 3, down: 1});
 
             // assert
             expect(result).to.equal(184);
         });
     });
 
+    describe("count trees for five slopes", function () {
+
+        it("simple grid slopes multiplied together is 336", function () {
+            // arrange
+
+            // act
+            const r1 = task03(grid, {right: 1, down: 1});
+            const r2 = task03(grid, {right: 3, down: 1});
+            const r3 = task03(grid, {right: 5, down: 1});
+            const r4 = task03(grid, {right: 7, down: 1});
+            const r5 = task03(grid, {right: 1, down: 2});
+
+            // assert
+            expect(r1).to.equal(2);
+            expect(r2).to.equal(7);
+            expect(r3).to.equal(3);
+            expect(r4).to.equal(4);
+            expect(r5).to.equal(2);
+
+            expect(r1 * r2 * r3 * r4 * r5).to.equal(336);
+        });
+
+        it("full grid slopes multiplied together is 336", function () {
+            // arrange
+
+            // act
+            const r1 = task03(fullGrid, {right: 1, down: 1});
+            const r2 = task03(fullGrid, {right: 3, down: 1});
+            const r3 = task03(fullGrid, {right: 5, down: 1});
+            const r4 = task03(fullGrid, {right: 7, down: 1});
+            const r5 = task03(fullGrid, {right: 1, down: 2});
+
+            // assert
+            expect(r1).to.equal(62);
+            expect(r2).to.equal(184);
+            expect(r3).to.equal(80);
+            expect(r4).to.equal(74);
+            expect(r5).to.equal(36);
+
+            expect(r1 * r2 * r3 * r4 * r5).to.equal(2431272960);
+        });
+
+    });
 
 
 });

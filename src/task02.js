@@ -1,13 +1,19 @@
-exports.partition02a = function (lines) {
-    const passwordsAndPolicies = lines.split("\n")
-        .map(line => line.trim())
-        .map(line => partitionLine(line))
+exports.task02a = countValidPasswords;
+exports.partition02a = partitionLines;
+exports.isPasswordValid02a = isPasswordValid;
 
-    return passwordsAndPolicies;
+function countValidPasswords(text){
+    const passwordWithPolicies = partitionLines(text);
+    return passwordWithPolicies.filter(isPasswordValid).length;
+}
+
+function partitionLines(text) {
+    return text.split("\n")
+        .map(line => line.trim())
+        .map(line => partitionLine(line));
 }
 
 function partitionLine(line){
-    console.log(line);
     const [policy, password] = line.split(": ");
     const [minmax, letter] = policy.split(" ");
     const [minStr, maxStr] = minmax.split("-");
@@ -21,4 +27,9 @@ function partitionLine(line){
         },
         password
     }
+}
+
+function isPasswordValid(passwordWithPolicy){
+    let letterCount = passwordWithPolicy.password.split(passwordWithPolicy.policy.letter).length - 1;
+    return passwordWithPolicy.policy.min <= letterCount && letterCount <= passwordWithPolicy.policy.max
 }

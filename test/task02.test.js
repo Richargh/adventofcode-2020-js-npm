@@ -1,5 +1,5 @@
 const expect = require("chai").expect;
-const {task02a, partition02a, isPasswordValid02a} = require("../src/task02");
+const {task02a, task02b, partition02a, isPasswordValid02a, isPasswordValid02b} = require("../src/task02");
 
 // see https://adventofcode.com/2020/day/2
 describe("count the passwords that satisfy corporate policy", function () {
@@ -31,7 +31,7 @@ describe("count the passwords that satisfy corporate policy", function () {
         });
     });
 
-    describe("does password fulfill the given policy", function () {
+    describe("does password have between min and max letters", function () {
         it("password has one 'a;  and is therefore valid", function () {
             // arrange
             const passwordAndPolicy = { policy: {letter: "a", min: 1, max: 3}, password: "abcde"};
@@ -66,7 +66,42 @@ describe("count the passwords that satisfy corporate policy", function () {
         });
     });
 
-    describe("count passwords that fulfill the given policy", function () {
+    describe("do the password letters fulfil the xor policy", function () {
+        it("password has one 'a' in the 1st position and no 'a' in the 3rd and is therefore valid", function () {
+            // arrange
+            const passwordAndPolicy = { policy: {letter: "a", min: 1, max: 3}, password: "abcde"};
+
+            // act
+            const result = isPasswordValid02b(passwordAndPolicy);
+
+            // assert
+            expect(result).to.equal(true);
+        });
+
+        it("password has one 'b' in the 1st position and a 'b' in the 3rd and is therefore invalid", function () {
+            // arrange
+            const passwordAndPolicy = { policy: {letter: "b", min: 1, max: 3}, password: "cdefg"};
+
+            // act
+            const result = isPasswordValid02b(passwordAndPolicy);
+
+            // assert
+            expect(result).to.equal(false);
+        });
+
+        it("password has one 'c' in the 1st position and a 'c' in the 9th and is therefore invalid", function () {
+            // arrange
+            const passwordAndPolicy = { policy: {letter: "c", min: 2, max: 9}, password: "ccccccccc"};
+
+            // act
+            const result = isPasswordValid02b(passwordAndPolicy);
+
+            // assert
+            expect(result).to.equal(false);
+        });
+    });
+
+    describe("count passwords that have between min and max letters", function () {
         it("single line", function () {
             // arrange
             const text = `1-3 a: abcde`;
@@ -93,6 +128,36 @@ describe("count the passwords that satisfy corporate policy", function () {
 
             // assert
             expect(result).to.equal(493);
+        });
+    });
+
+    describe("count passwords that have Xor letters", function () {
+        it("single line", function () {
+            // arrange
+            const text = `1-3 a: abcde`;
+
+            // act
+            const result = task02b(text);
+
+            // assert
+            expect(result).to.equal(1);
+        });
+
+        it("task example", function () {
+
+            // act
+            const result = task02b(passwords);
+
+            // assert
+            expect(result).to.equal(1);
+        });
+
+        it("full task example", function () {
+            // act
+            const result = task02b(fullPasswords);
+
+            // assert
+            expect(result).to.equal(593);
         });
     });
 

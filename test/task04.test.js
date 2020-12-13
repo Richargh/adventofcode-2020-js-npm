@@ -1,7 +1,7 @@
 const expect = require("chai").expect;
 const {task04a, task04b, extractPassports, validateFields} = require("../src/task04");
 
-// see https://adventofcode.com/2020/day/3
+// see https://adventofcode.com/2020/day/4
 describe("passport field validation", function () {
     describe("extract passports from string", function () {
         it("can extract a single passport", function () {

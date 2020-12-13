@@ -1,5 +1,5 @@
 const expect = require("chai").expect;
-const {task04a, extractPassports} = require("../src/task04");
+const {task04a, task04b, extractPassports, validateFields} = require("../src/task04");
 
 // see https://adventofcode.com/2020/day/3
 describe("passport field validation", function () {
@@ -61,20 +61,269 @@ hgt:179cm`;
         });
     });
 
-    describe("can validate values", function () {
-        it("can extract a single passport", function () {
+    describe("can validate individual fields", function () {
+        it("Birth Year needs to be at least 1920", function () {
             // arrange
-            const text = `ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
-byr:1937 iyr:2017 cid:147 hgt:183cm`;
+            const passport = {byr: "1919"};
 
             // act
-            const result = extractPassports(text);
+            const result = validateFields(passport);
 
             // assert
-            expect(result[0]).to.eql({
-                ecl: "gry", pid: "860033327", eyr: "2020", hcl: "#fffffd",
-                byr: "1937", iyr: "2017", cid: "147", hgt: "183cm"
-            });
+            expect(result.byr).to.equal(false);
+        });
+
+        it("Birth Year needs to be between min and max", function () {
+            // arrange
+            const passport = {byr: "1950"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.byr).to.equal(true);
+        });
+
+        it("Birth Year needs to be at most 2002", function () {
+            // arrange
+            const passport = {byr: "2003"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.byr).to.equal(false);
+        });
+
+        it("Issue Year needs to be at least 2010", function () {
+            // arrange
+            const passport = {iyr: "2009"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.iyr).to.equal(false);
+        });
+
+        it("Issue Year needs to be between min and max", function () {
+            // arrange
+            const passport = {iyr: "2015"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.iyr).to.equal(true);
+        });
+
+        it("Issue Year needs to be at most 2020", function () {
+            // arrange
+            const passport = {iyr: "2021"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.iyr).to.equal(false);
+        });
+
+        it("Height in inch needs to be at least 59", function () {
+            // arrange
+            const passport = {hgt: "58in"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.hgt).to.equal(false);
+        });
+
+        it("Height in inch needs to be between min and max", function () {
+            // arrange
+            const passport = {hgt: "70in"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.hgt).to.equal(true);
+        });
+
+        it("Height in inch needs to be at most 76", function () {
+            // arrange
+            const passport = {hgt: "77in"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.hgt).to.equal(false);
+        });
+
+        it("Height in centimeter needs to be at least 150", function () {
+            // arrange
+            const passport = {hgt: "149cm"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.hgt).to.equal(false);
+        });
+
+        it("Height in centimeter needs to be between min and max", function () {
+            // arrange
+            const passport = {hgt: "170cm"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.hgt).to.equal(true);
+        });
+
+        it("Height in centimeter needs to be at most 193", function () {
+            // arrange
+            const passport = {hgt: "194cm"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.hgt).to.equal(false);
+        });
+
+        it("Hair color starts with a hash", function () {
+            // arrange
+            const passport = {hcl: "123abc"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.hcl).to.equal(false);
+        });
+
+        it("Hair color can contain all numbers 0-9 and all letters a-f", function () {
+            // arrange
+            const passport = {hcl: "#123abf"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.hcl).to.equal(true);
+        });
+
+        it("Hair color cannot contain letters other than a-f", function () {
+            // arrange
+            const passport = {hcl: "#123abz"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.hcl).to.equal(false);
+        });
+
+        it("Hair color can start with a letter", function () {
+            // arrange
+            const passport = {hcl: "#c0946f"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.hcl).to.equal(true);
+        });
+
+        it("Eye color cannot be random letters", function () {
+            // arrange
+            const passport = {ecl: "wat"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.ecl).to.equal(false);
+        });
+
+        it("Eye color has specific allowed colors", function () {
+            // arrange
+            const passport = {ecl: "brn"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.ecl).to.equal(true);
+        });
+
+        it("Eye color cannot mix colors", function () {
+            // arrange
+            const passport = {ecl: "brnblu"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.ecl).to.equal(false);
+        });
+
+        it("Eye color cannot be empty", function () {
+            // arrange
+            const passport = {ecl: ""};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.ecl).to.equal(false);
+        });
+
+        it("Passport ID cannot have fewer than nine-digits", function () {
+            // arrange
+            const passport = {pid: "123"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.pid).to.equal(false);
+        });
+
+        it("Passport ID cannot have more than nine-digits", function () {
+            // arrange
+            const passport = {pid: "1234567890"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.pid).to.equal(false);
+        });
+
+        it("Passport ID needs to be a nine-digit number, including zeros", function () {
+            // arrange
+            const passport = {pid: "000000001"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.pid).to.equal(true);
+        });
+
+        it("Passport ID cannot contain letters", function () {
+            // arrange
+            const passport = {pid: "abc000001"};
+
+            // act
+            const result = validateFields(passport);
+
+            // assert
+            expect(result.pid).to.equal(false);
         });
     });
 
@@ -148,6 +397,89 @@ iyr:2011 ecl:brn hgt:59in`;
             // assert
             expect(result).to.equal(264);
         });
+    });
+
+    describe("can validate presence of fields and their value in passports", function () {
+        it("count is 0, because hgt is missing the unit", function () {
+            // arrange
+            const text = `eyr:1972 cid:100
+hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926`;
+
+            // act
+            const result = task04b(text);
+
+            // assert
+            expect(result).to.equal(0);
+        });
+
+        it("count is 1, because the given passport field values are all valid", function () {
+            // arrange
+            const text = `pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980
+hcl:#623a2f`;
+
+            // act
+            const result = task04b(text);
+
+            // assert
+            expect(result).to.equal(1);
+        });
+
+        it("all these passports are invalid", function () {
+            // arrange
+            const text = `eyr:1972 cid:100
+hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926
+
+iyr:2019
+hcl:#602927 eyr:1967 hgt:170cm
+ecl:grn pid:012533040 byr:1946
+
+hcl:dab227 iyr:2012
+ecl:brn hgt:182cm pid:021572410 eyr:2020 byr:1992 cid:277
+
+hgt:59cm ecl:zzz
+eyr:2038 hcl:74454a iyr:2023
+pid:3556412378 byr:2007`;
+
+            // act
+            const result = task04b(text);
+
+            // assert
+            expect(result).to.equal(0);
+        });
+
+        it("all these passports are valid", function () {
+            // arrange
+            const text = `pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980
+hcl:#623a2f
+
+eyr:2029 ecl:blu cid:129 byr:1989
+iyr:2014 pid:896056539 hcl:#a97842 hgt:165cm
+
+hcl:#888785
+hgt:164cm byr:2001 iyr:2015 cid:88
+pid:545766238 ecl:hzl
+eyr:2022
+
+iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719`;
+
+            // act
+            const result = task04b(text);
+
+            // assert
+            expect(result).to.equal(4);
+        });
+
+        // TODO figure out why, I count too many passports
+        it("full batch example", function () {
+            // arrange
+
+            // act
+            const result = task04b(fullBatch);
+
+            // assert
+            expect(result).to.equal(225);
+        });
+
     });
 
 });

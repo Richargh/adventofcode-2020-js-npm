@@ -1,12 +1,12 @@
-exports.task04a = countValidPassports;
+exports.task04a = countFieldsPresentPassports;
 exports.extractPassports = extractPassports;
 
-function countValidPassports(text) {
+function countFieldsPresentPassports(text) {
     const passports = extractPassports(text);
-    return passports.filter(isValid).length;
+    return passports.filter(hasAllRequiredFields).length;
 }
 
-function isValid(passport){
+function hasAllRequiredFields(passport){
     return passport.hasOwnProperty("ecl")
         && passport.hasOwnProperty("pid")
         && passport.hasOwnProperty("eyr")

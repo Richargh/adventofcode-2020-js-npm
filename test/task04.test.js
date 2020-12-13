@@ -61,6 +61,23 @@ hgt:179cm`;
         });
     });
 
+    describe("can validate values", function () {
+        it("can extract a single passport", function () {
+            // arrange
+            const text = `ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
+byr:1937 iyr:2017 cid:147 hgt:183cm`;
+
+            // act
+            const result = extractPassports(text);
+
+            // assert
+            expect(result[0]).to.eql({
+                ecl: "gry", pid: "860033327", eyr: "2020", hcl: "#fffffd",
+                byr: "1937", iyr: "2017", cid: "147", hgt: "183cm"
+            });
+        });
+    });
+
     describe("can validate presence of fields in passports", function () {
         it("count is 1, because the given passport has all required fields", function () {
             // arrange

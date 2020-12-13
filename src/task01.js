@@ -1,5 +1,5 @@
 exports.task01a = function (lines) {
-    const expenses = lines.split("\n").map(e => parseInt(e.trim()));
+    const expenses = lines.split("\n").map(e => parseInt(e.trim(), 10));
 
     let result;
     outer:
@@ -17,7 +17,7 @@ exports.task01a = function (lines) {
 }
 
 exports.task01b = function (lines) {
-    const expenses = lines.split("\n").map(e => parseInt(e.trim()));
+    const expenses = lines.split("\n").map(e => parseInt(e.trim(), 10));
 
     let result;
     outer:

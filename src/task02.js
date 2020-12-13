@@ -24,8 +24,8 @@ function partitionLine(line){
     const [policy, password] = line.split(": ");
     const [minmax, letter] = policy.split(" ");
     const [minStr, maxStr] = minmax.split("-");
-    const min = parseInt(minStr);
-    const max = parseInt(maxStr);
+    const min = parseInt(minStr, 10);
+    const max = parseInt(maxStr, 10);
     return {
         policy: {
             min,

@@ -1,7 +1,6 @@
 const expect = require("chai").expect;
 const {task06a, task06b, extractGroupAnswers} = require("../src/task06");
 
-// see https://adventofcode.com/2020/day/5
 describe("custom customs", function () {
     describe("extract group answers", function () {
         it("example0", function () {

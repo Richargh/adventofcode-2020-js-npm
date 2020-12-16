@@ -1,5 +1,21 @@
 exports.task05a = highestSeatId;
+exports.task05b = missingSeatIds;
 exports.seatOf = seatOf;
+
+function missingSeatIds(boardingPasses) {
+    const seatIds = boardingPasses.split("\n")
+        .map(line => seatOf(line.trim()).seatId)
+        .sort((one, other) => one - other);
+    const mySeatId = seatIds.reduce((previous, current) => {
+        if (current - previous === 1) {
+            return current;
+        } else {
+            return previous;
+        }
+    }) + 1;
+    console.log(mySeatId);
+    return mySeatId;
+}
 
 function highestSeatId(boardingPasses) {
     const seatIds = boardingPasses.split("\n")

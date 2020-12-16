@@ -1,5 +1,5 @@
 const expect = require("chai").expect;
-const {task05a, seatOf} = require("../src/task05");
+const {task05a, task05b, seatOf} = require("../src/task05");
 
 // see https://adventofcode.com/2020/day/5
 describe("binary boarding", function () {
@@ -166,6 +166,19 @@ describe("binary boarding", function () {
 
             // assert
             expect(result).to.eql(906);
+        });
+    });
+
+    describe("determine your seatId", function () {
+
+        it("full example", function () {
+            // arrange
+
+            // act
+            const result = task05b(fullExample);
+
+            // assert
+            expect(result).to.eql(519);
         });
     });
 

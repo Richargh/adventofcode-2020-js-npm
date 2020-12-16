@@ -12,11 +12,11 @@ describe("custom customs", function () {
 
             // assert
             expect(result).to.eql([
-                { individualAnswers: [["a", "b", "c"]] },
-                { individualAnswers: [["a"], ["b"], ["c"]] },
-                { individualAnswers: [["a", "b"], ["a", "c"]] },
-                { individualAnswers: [["a"], ["a"], ["a"], ["a"]] },
-                { individualAnswers: [["b"]] }
+                { answersPerPerson: [["a", "b", "c"]] },
+                { answersPerPerson: [["a"], ["b"], ["c"]] },
+                { answersPerPerson: [["a", "b"], ["a", "c"]] },
+                { answersPerPerson: [["a"], ["a"], ["a"], ["a"]] },
+                { answersPerPerson: [["b"]] }
             ]);
         });
     });
@@ -52,6 +52,16 @@ describe("custom customs", function () {
 
             // assert
             expect(result).to.eql(6);
+        });
+
+        it("full form", function () {
+            // arrange
+
+            // act
+            const result = task06b(fullFormAnswers);
+
+            // assert
+            expect(result).to.eql(3276);
         });
     });
 

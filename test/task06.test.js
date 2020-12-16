@@ -1,5 +1,5 @@
 const expect = require("chai").expect;
-const {task06a, extractGroupAnswers} = require("../src/task06");
+const {task06a, task06b, extractGroupAnswers} = require("../src/task06");
 
 // see https://adventofcode.com/2020/day/5
 describe("custom customs", function () {
@@ -12,11 +12,11 @@ describe("custom customs", function () {
 
             // assert
             expect(result).to.eql([
-                ["a", "b", "c"],
-                ["a", "b", "c"],
-                ["a", "b", "a", "c"],
-                ["a", "a", "a", "a"],
-                ["b"]
+                { individualAnswers: [["a", "b", "c"]] },
+                { individualAnswers: [["a"], ["b"], ["c"]] },
+                { individualAnswers: [["a", "b"], ["a", "c"]] },
+                { individualAnswers: [["a"], ["a"], ["a"], ["a"]] },
+                { individualAnswers: [["b"]] }
             ]);
         });
     });
@@ -40,6 +40,18 @@ describe("custom customs", function () {
 
             // assert
             expect(result).to.eql(6585);
+        });
+    });
+
+    describe("sum of group answers that everyone said yes to", function () {
+        it("short form", function () {
+            // arrange
+
+            // act
+            const result = task06b(shortFormAnswers);
+
+            // assert
+            expect(result).to.eql(6);
         });
     });
 

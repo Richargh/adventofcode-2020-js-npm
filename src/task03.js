@@ -5,9 +5,6 @@ function countTrees(text, slope) {
     return grid.countTrees(slope);
 }
 
-function countTreesForSlope(text, slope) {
-}
-
 function gridOf(text) {
     const rows = text.split("\n")
         .map(line => line.trim());
